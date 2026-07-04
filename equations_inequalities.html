@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>اختبار حل المعادلات والمتراجحات | الأستاذ محمود الدياب</title>
+<script>
+window.MathJax = { tex: {inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$']]}, svg: {fontCache: 'global'} };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root{--bg1:#150b2b;--bg2:#29104d;--gold:#d6a34a;--violet:#9b5bd6;--paper:#fffdf8;--ink:#161320;--muted:#6b607a;--good:#167a3a;--bad:#b42318;--line:#e6d7b0;--soft:#f6efff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Cairo","Tahoma",Arial,sans-serif;background:radial-gradient(circle at top,#452070 0%,var(--bg2) 35%,var(--bg1) 100%);color:var(--ink)}
+body:before{content:"∑  π  √  x²  ≤  ∞";position:fixed;inset:auto 0 4vh 0;text-align:center;font-size:12vw;color:rgba(255,255,255,.035);letter-spacing:.15em;pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;max-width:1120px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:white;margin-bottom:14px}.brand{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#fff3c4,#a85be8);display:grid;place-items:center;color:#4a236e;font-weight:900;font-size:28px;box-shadow:0 10px 28px rgba(0,0,0,.25)}h1{font-size:clamp(22px,4vw,38px);margin:0;color:#fff}.sub{color:#f1d995;font-size:14px}.teacher{text-align:left;color:#ead6ff;line-height:1.7}.card{background:rgba(255,253,248,.96);border:1px solid rgba(214,163,74,.45);border-radius:22px;box-shadow:0 18px 45px rgba(0,0,0,.28);padding:22px;margin:14px 0}.login{max-width:760px;margin:40px auto}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(max-width:760px){.grid{grid-template-columns:1fr}.top{flex-direction:column;text-align:center}.teacher{text-align:center}}
+label{display:block;font-weight:800;margin-bottom:6px;color:#3c2353}input,select{width:100%;border:1px solid #d9c9a6;border-radius:12px;padding:12px 14px;font-size:16px;background:white;font-family:inherit}.btn{border:0;border-radius:12px;padding:12px 18px;font-size:16px;font-weight:900;font-family:inherit;cursor:pointer;background:linear-gradient(135deg,var(--gold),#f2cf72);color:#2f1d0a;box-shadow:0 10px 20px rgba(0,0,0,.15)}.btn.secondary{background:#efe6ff;color:#4d2674}.btn.danger{background:#ffe4e0;color:#8d1b10}.btn.dark{background:#2b174d;color:white}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.hidden{display:none!important}.notice{background:#fff7dc;border:1px solid #eed28a;border-radius:14px;padding:12px 14px;color:#62440b;line-height:1.8}.quizLayout{display:grid;grid-template-columns:260px 1fr;gap:16px}.side{position:sticky;top:10px;align-self:start}.qnav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.qbtn{border:1px solid #d7c79d;background:white;border-radius:10px;padding:8px;cursor:pointer;font-weight:800}.qbtn.current{background:var(--gold)}.qbtn.done{background:#eaf7ee;border-color:#88d19b}.progress{height:12px;background:#eee;border-radius:30px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--gold));transition:.25s}.questionHead{display:flex;justify-content:space-between;gap:10px;align-items:center}.badge{background:#2d174d;color:white;border-radius:999px;padding:6px 12px;font-weight:900}.qtext{font-size:22px;line-height:2;margin:18px 0;background:linear-gradient(180deg,#fff,#fbf7ef);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:right}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media(max-width:880px){.quizLayout{grid-template-columns:1fr}.side{position:static}.choices{grid-template-columns:1fr}}
+.choice{border:2px solid #ded1b3;border-radius:16px;background:white;padding:14px 16px;min-height:76px;display:flex;gap:12px;align-items:center;cursor:pointer;transition:.15s;text-align:right}.choice:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.08)}.letter{min-width:40px;height:40px;border-radius:12px;background:#eee;display:grid;place-items:center;font-weight:900}.choice.selected{border-color:var(--violet);background:#f7efff}.choice.correct{border-color:var(--good);background:#eaf8ef}.choice.wrong{border-color:var(--bad);background:#fff0ee}.resultBox{text-align:center}.score{font-size:54px;color:#4b2173;font-weight:900}.tableWrap{overflow:auto}table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden}th,td{border:1px solid #eadfca;padding:10px;text-align:center}th{background:#2b174d;color:white}.small{font-size:13px;color:var(--muted)}.footer{color:#dfc8ff;text-align:center;font-size:13px;margin:18px}.math-note{font-size:13px;color:#6a5a6d;margin-top:8px}.status{font-weight:900}.ok{color:var(--good)}.no{color:var(--bad)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">π</div><div><h1>اختبار حل المعادلات والمتراجحات</h1><div class="sub">موقع تفاعلي مع تسجيل دخول وحساب العلامة</div></div></div>
+    <div class="teacher">المدرّس: <b>محمود الدياب</b><br>0956268336</div>
+  </header>
+
+  <section id="loginPage" class="card login">
+    <h2>تسجيل دخول الطالبة</h2>
+    <p class="notice">أدخلي البيانات ثم كلمة المرور لبدء الاختبار. سيتم حساب العلامة تلقائياً بعد التسليم.</p>
+    <div class="grid">
+      <div><label>اسم الطالبة</label><input id="studentName" placeholder="مثال: سارة أحمد" /></div>
+      <div><label>المجموعة</label><input id="studentGroup" placeholder="مثال: مجموعة السبت" /></div>
+      <div><label>رقم الهاتف / معرف اختياري</label><input id="studentPhone" placeholder="اختياري" /></div>
+      <div><label>كلمة المرور</label><input id="studentPass" type="password" placeholder="كلمة المرور" /></div>
+    </div>
+    <div class="row" style="margin-top:18px"><button class="btn" onclick="startQuiz()">ابدأ الاختبار</button><button class="btn secondary" onclick="showAdminLogin()">لوحة الأستاذ</button></div>
+    <p class="small">كلمة مرور الطالبات الافتراضية داخل الملف: <b>13579</b></p>
+  </section>
+
+  <section id="quizPage" class="hidden">
+    <div class="quizLayout">
+      <aside class="card side">
+        <b>تقدم الاختبار</b>
+        <div class="progress" style="margin:12px 0"><div id="bar" class="bar"></div></div>
+        <div id="who" class="small"></div>
+        <div id="qnav" class="qnav"></div>
+        <div class="row" style="margin-top:16px"><button class="btn danger" onclick="submitQuiz()">تسليم الاختبار</button></div>
+      </aside>
+      <main class="card">
+        <div class="questionHead"><span class="badge" id="qNumber"></span><span class="small" id="answeredCount"></span></div>
+        <div class="qtext" id="qText"></div>
+        <div class="choices" id="choices"></div>
+        <div class="row" style="justify-content:space-between;margin-top:18px"><button class="btn secondary" onclick="prevQ()">السابق</button><button class="btn" onclick="nextQ()">التالي</button></div>
+      </main>
+    </div>
+  </section>
+
+  <section id="resultPage" class="card resultBox hidden">
+    <h2>تم تسليم الاختبار</h2>
+    <div class="score" id="scoreText"></div>
+    <p id="resultDetails"></p>
+    <div class="row" style="justify-content:center"><button class="btn dark" onclick="reviewAnswers()">مراجعة الإجابات</button><button class="btn secondary" onclick="location.reload()">اختبار جديد</button><button class="btn" onclick="sendWhatsApp()">إرسال النتيجة واتساب</button></div>
+  </section>
+
+  <section id="adminLogin" class="card login hidden">
+    <h2>دخول لوحة الأستاذ</h2>
+    <div class="grid"><div><label>كلمة مرور الأستاذ</label><input id="adminPass" type="password" placeholder="كلمة مرور لوحة النتائج" /></div></div>
+    <div class="row" style="margin-top:18px"><button class="btn" onclick="openAdmin()">دخول</button><button class="btn secondary" onclick="backLogin()">رجوع</button></div>
+    <p class="small">كلمة مرور الأستاذ الافتراضية: <b>24680</b></p>
+  </section>
+
+  <section id="adminPage" class="card hidden">
+    <h2>لوحة النتائج</h2>
+    <p class="notice">هذه اللوحة تعرض النتائج المحفوظة على نفس الجهاز/المتصفح. لاستقبال علامات كل الطالبات تلقائياً عندك من بيوتهن نربط الموقع لاحقاً بـ Google Sheets.</p>
+    <div class="row"><button class="btn" onclick="renderResults()">تحديث</button><button class="btn secondary" onclick="exportCSV()">تصدير CSV</button><button class="btn danger" onclick="clearResults()">مسح النتائج</button><button class="btn dark" onclick="backLogin()">خروج</button></div>
+    <div class="tableWrap" style="margin-top:16px"><table id="resultsTable"></table></div>
+  </section>
+  <div class="footer">© الأستاذ محمود الدياب — اختبار تفاعلي للرياضيات</div>
+</div>
+<script>
+const STUDENT_PASSWORD='13579';
+const ADMIN_PASSWORD='24680';
+const TEACHER_WHATSAPP='963956268336';
+const questions=[
+{t:'إن مجموعة تعريف التابع: $f(x)=\\dfrac{x^{2}+2x}{\\sqrt{x^{2}+4}}$ هي:',c:{A:'$[2,+\\infty[$',B:'$R\\setminus\\{0\\}$',C:'$R$',D:'$R\\setminus\\{\\mp 2\\}$'},a:'C'},
+{t:'مجموعة حلول المتراجحة $\\dfrac{2x-4}{x^{2}-5x+6}\\le 0$ هي:',c:{A:'$]-\\infty,2]\\cup[2,3]$',B:'$]-\\infty,2[\\cup]3,+\\infty[$',C:'$]-\\infty,2[\\cup]2,3[$',D:'$[2,3]$'},a:'C'},
+{t:'مجموعة حلول المعادلة $x-7\\sqrt{x}+12=0$ هي:',c:{A:'$\\{3,4\\}$',B:'$\\{2,6\\}$',C:'$\\{9,16\\}$',D:'$\\{-3,-4\\}$'},a:'C'},
+{t:'مجموعة حلول المتراجحة $-3x^{2}+\\sqrt{3}x-1\\ge 0$ هي:',c:{A:'$[3,+\\infty[$',B:'$]-\\infty,3]$',C:'$R$',D:'$\\varnothing$'},a:'D'},
+{t:'إن مجموعة تعريف التابع $f(x)=\\dfrac{\\sqrt{x-3}}{x^{2}-4x}$ هي:',c:{A:'$[3,4[$',B:'$[3,4[\\cup]4,+\\infty[$',C:'$]4,+\\infty[$',D:'$]3,+\\infty[$'},a:'B'},
+{t:'إذا كانت مجموعة حلول المعادلة $x^{2}+bx+c=0$ هي $\\{x_1=-2, x_2=4\\}$ فإن:',c:{A:'$b=2,\\ c=-8$',B:'$b=-2,\\ c=-8$',C:'$b=2,\\ c=8$',D:'$b=-2,\\ c=8$'},a:'B'},
+{t:'قيم العدد $m$ التي تجعل $x=-1$ حلّاً للمعادلة $2m^{2}x^{4}+mx-m=0$ هي:',c:{A:'$\\{-1,1\\}$',B:'$\\{-1,0\\}$',C:'$\\{-1,0\\}$',D:'$\\{0,1\\}$'},a:'D'},
+{t:'ليكن $f(x)=\\dfrac{-x^{3}+x^{2}+1}{x^{2}+1}$ المعرف على $R$ فإن التابع يكتب بالشكل:',c:{A:'$-x-1+\\dfrac{x}{x^{2}+1}$',B:'$x+1+\\dfrac{x}{x^{2}+1}$',C:'$x-1+\\dfrac{x}{x^{2}+1}$',D:'$-x+1+\\dfrac{x}{x^{2}+1}$'},a:'D'},
+{t:'مجموعة حلول المعادلة $5x^{4}+9x^{2}+4=0$ هي:',c:{A:'$\\{-2,2\\}$',B:'$\\varnothing$',C:'$\\{-3,-2\\}$',D:'$\\{-2,-1\\}$'},a:'B'},
+{t:'إن مجموعة تعريف التابع $f(x)=\\sqrt{1-\\dfrac{1}{x}}$ تساوي:',c:{A:'$[0,1[\\cup]1,\\infty[$',B:'$]-\\infty,0]\\cup[1,\\infty[$',C:'$]-\\infty,0[\\cup[1,\\infty[$',D:'$]0,1]\\cup]1,\\infty[$'},a:'C'},
+{t:'مجموعة حلول المتراجحة $\\dfrac{x^{3}-4x}{x^{2}-x-6}\\le 0$ هي:',c:{A:'$]-\\infty,-2[\\cup]3,\\infty[$',B:'$]-2,0]\\cup]3,\\infty[$',C:'$]0,2]\\cup]3,\\infty[$',D:'$]-2,0]\\cup]2,3[$'},a:'D',note:'ملاحظة: راجع مفتاح هذا السؤال إن أردت اعتماد الحل الرياضي الكامل.'}
+];
+let current=0, answers={}, student={};
+function $(id){return document.getElementById(id)}
+function hideAll(){['loginPage','quizPage','resultPage','adminLogin','adminPage'].forEach(id=>$(id).classList.add('hidden'))}
+function startQuiz(){const name=$('studentName').value.trim(), group=$('studentGroup').value.trim(), phone=$('studentPhone').value.trim(), pass=$('studentPass').value.trim(); if(!name){alert('اكتب اسم الطالبة');return} if(pass!==STUDENT_PASSWORD){alert('كلمة المرور غير صحيحة');return} student={name,group,phone,start:new Date().toLocaleString('ar')}; answers={}; current=0; hideAll(); $('quizPage').classList.remove('hidden'); $('who').innerHTML='الطالبة: <b>'+name+'</b><br>المجموعة: '+(group||'—'); buildNav(); renderQ();}
+function buildNav(){const nav=$('qnav'); nav.innerHTML=''; questions.forEach((q,i)=>{const b=document.createElement('button'); b.className='qbtn'; b.textContent=i+1; b.onclick=()=>{current=i;renderQ()}; nav.appendChild(b)});}
+function renderQ(){const q=questions[current]; $('qNumber').textContent='السؤال '+(current+1)+' / '+questions.length; $('qText').innerHTML=q.t+(q.note?'<div class="math-note">'+q.note+'</div>':''); const ch=$('choices'); ch.innerHTML=''; ['A','B','C','D'].forEach(l=>{const div=document.createElement('div'); div.className='choice'+(answers[current]===l?' selected':''); div.onclick=()=>{answers[current]=l;renderQ()}; div.innerHTML='<span class="letter">'+l+'</span><div>'+q.c[l]+'</div>'; ch.appendChild(div)}); updateProgress(); if(window.MathJax) MathJax.typesetPromise();}
+function updateProgress(){const done=Object.keys(answers).length; $('answeredCount').textContent='تمت الإجابة عن '+done+' من '+questions.length; $('bar').style.width=(done/questions.length*100)+'%'; document.querySelectorAll('.qbtn').forEach((b,i)=>{b.classList.toggle('current',i===current);b.classList.toggle('done',answers[i])});}
+function nextQ(){if(current<questions.length-1){current++;renderQ()}} function prevQ(){if(current>0){current--;renderQ()}}
+function grade(){let correct=0; questions.forEach((q,i)=>{if(answers[i]===q.a) correct++}); return {correct,total:questions.length,percent:Math.round(correct/questions.length*100)} }
+function submitQuiz(){if(Object.keys(answers).length<questions.length&&!confirm('هناك أسئلة غير مجابة. هل تريد التسليم؟')) return; const g=grade(); const rec={...student,end:new Date().toLocaleString('ar'),correct:g.correct,total:g.total,percent:g.percent,answers:{...answers}}; const all=JSON.parse(localStorage.getItem('mathQuiz2Results')||'[]'); all.push(rec); localStorage.setItem('mathQuiz2Results',JSON.stringify(all)); window.lastResult=rec; hideAll(); $('resultPage').classList.remove('hidden'); $('scoreText').textContent=g.correct+' / '+g.total; $('resultDetails').innerHTML='النسبة: <b>'+g.percent+'%</b><br>الطالبة: '+student.name;}
+function reviewAnswers(){hideAll(); $('quizPage').classList.remove('hidden'); renderQ(); document.querySelectorAll('.choice').forEach((el,idx)=>{}); setTimeout(()=>{paintReview()},100)}
+function paintReview(){const q=questions[current]; document.querySelectorAll('.choice').forEach(el=>{const l=el.querySelector('.letter').textContent; el.classList.toggle('correct',l===q.a); el.classList.toggle('wrong',answers[current]===l && l!==q.a);});}
+function showAdminLogin(){hideAll(); $('adminLogin').classList.remove('hidden')} function backLogin(){hideAll(); $('loginPage').classList.remove('hidden')}
+function openAdmin(){if($('adminPass').value.trim()!==ADMIN_PASSWORD){alert('كلمة مرور الأستاذ غير صحيحة');return} hideAll(); $('adminPage').classList.remove('hidden'); renderResults();}
+function renderResults(){const all=JSON.parse(localStorage.getItem('mathQuiz2Results')||'[]'); let html='<tr><th>#</th><th>الاسم</th><th>المجموعة</th><th>الهاتف</th><th>العلامة</th><th>النسبة</th><th>وقت التسليم</th></tr>'; all.forEach((r,i)=>{html+=`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.group||'—'}</td><td>${r.phone||'—'}</td><td>${r.correct}/${r.total}</td><td>${r.percent}%</td><td>${r.end}</td></tr>`}); $('resultsTable').innerHTML=html;}
+function exportCSV(){const all=JSON.parse(localStorage.getItem('mathQuiz2Results')||'[]'); let csv='name,group,phone,score,total,percent,submitted_at\n'; all.forEach(r=>{csv+=[r.name,r.group,r.phone,r.correct,r.total,r.percent,r.end].map(x=>'"'+String(x||'').replaceAll('"','""')+'"').join(',')+'\n'}); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='math-quiz-results.csv'; a.click();}
+function clearResults(){if(confirm('هل تريد مسح كل النتائج من هذا الجهاز؟')){localStorage.removeItem('mathQuiz2Results');renderResults()}}
+function sendWhatsApp(){const r=window.lastResult;if(!r)return; const msg=`نتيجة اختبار حل المعادلات والمتراجحات%0Aالاسم: ${r.name}%0Aالمجموعة: ${r.group||'-'}%0Aالعلامة: ${r.correct}/${r.total}%0Aالنسبة: ${r.percent}%`; window.open('https://wa.me/'+TEACHER_WHATSAPP+'?text='+msg,'_blank')}
+</script>
+</body>
+</html>
