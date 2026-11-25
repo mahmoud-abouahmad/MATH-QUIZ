@@ -1,0 +1,69 @@
+<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>اختبار قوانين التكامل والتابع الأصلي</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f5f2fa;color:#211b39;font:17px Tahoma,Arial,sans-serif;line-height:1.65}main{max-width:830px;margin:auto;padding:18px}header,fieldset,#result{padding:22px;margin:0 0 14px;border:1px solid #ddd5e7;border-radius:16px;background:white}header{background:#211343;color:white;border-bottom:5px solid #d7b05c}header p{color:#f1d08a}h1{line-height:1.4;margin:8px 0}fieldset{min-width:0}legend{font-weight:bold;color:#52277d;padding:0 8px}label{display:flex;gap:10px;align-items:center;background:#f7f5fb;padding:9px 12px;border-radius:8px;cursor:pointer}label:has(input:checked){outline:2px solid #724ab2}label.correct{background:#def5e7}label.wrong{background:#ffe4e4}button,a.share{display:inline-block;font:inherit;color:white;background:#512883;padding:10px 20px;border-radius:10px;border:0;text-decoration:none;cursor:pointer}a.share{background:#12633b}.math{font-family:Cambria,Georgia,serif;font-size:1.15em;unicode-bidi:isolate}#bar{position:sticky;top:0;background:#f5f2fa;padding:8px;z-index:1}#result{scroll-margin-top:65px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:530px){main{padding:10px}.opts{grid-template-columns:1fr}fieldset{padding:14px}}
+</style>
+<main><header><p>معهد آفاق التعليمي · الأستاذ محمود الدياب</p><h1>اختبار قوانين التكامل والتابع الأصلي</h1>الثالث الثانوي العلمي · ٤٠ سؤالاً · ٤٠ علامة</header>
+<p>اختر إجابة واحدة لكل سؤال. في أسئلة التكامل تُضاف (C) لجميع الخيارات، ويُفترض أن الحساب على مجال تكون فيه العبارة معرّفة. يظهر التصحيح عند تسليم الاختبار.</p>
+<label>اسم الطالب أو رمز المجموعة (اختياري) <input id="student" maxlength="60"></label><div id="bar"><output id="progress" aria-live="polite"></output></div>
+<section id="result" hidden tabindex="-1"><h2 id="score"></h2><p>تظهر الإجابة الصحيحة بالأخضر، واختيارك الخاطئ بالأحمر.</p><a id="share" class="share" target="_blank" rel="noopener">مشاركة النتيجة عبر واتساب</a></section>
+<form id="quiz"><div id="items"></div><button>تسليم الاختبار وعرض التصحيح</button></form><noscript>يتطلب الاختبار تفعيل JavaScript في المتصفح.</noscript></main>
+<script>
+"use strict";
+const bank=[["∫ 7 dx","7x","7","x⁷","7x²"],["∫ x⁴ dx","x⁵/5","x⁵","4x³","x⁴/4"],["∫ 6x² dx","2x³","6x³","3x³","12x"],["∫ (3x² − 4x + 1) dx","x³ − 2x² + x","x³ − 4x² + x","x³ − 2x² + 1","6x − 4"],["∫ √x dx","2x√x/3","x√x","1/(2√x)","x²/2"],["∫ 1/x² dx","−1/x","1/x","ln(x)","1/(3x³)"],["∫ 1/x dx على المجال x > 0","ln(x)","−1/x","x ln(x)","1/x"],["∫ sin(x) dx","−cos(x)","cos(x)","sin(x)","−sin(x)"],["∫ cos(x) dx","sin(x)","−sin(x)","cos(x)","−cos(x)"],["∫ eˣ dx","eˣ","xeˣ","eˣ/x","xeˣ − eˣ"],["∫ (2x+1)⁴ dx","(2x+1)⁵/10","(2x+1)⁵/5","(2x+1)⁵/2","(2x+1)⁴/8"],["∫ e^(3x−1) dx","e^(3x−1)/3","3e^(3x−1)","e^(3x−1)","e^(3x−1)/2"],["∫ cos(4x) dx","sin(4x)/4","4sin(4x)","−sin(4x)/4","cos(4x)/4"],["∫ sin(2x−1) dx","−cos(2x−1)/2","cos(2x−1)/2","−2cos(2x−1)","−cos(2x−1)"],["∫ 1/(3x−2) dx","ln ⁡│3x−2│/3","ln ⁡│3x−2│","3ln ⁡│3x−2│","−1/[3(3x−2)]"],["∫ x/(x²+4) dx","ln(x²+4)/2","ln(x²+4)","−1/(x²+4)","x ln(x²+4)"],["∫ x e^(x²) dx","e^(x²)/2","e^(x²)","2e^(x²)","x²e^(x²)/2"],["∫ x cos(x²) dx","sin(x²)/2","−sin(x²)/2","sin(x²)","cos(x²)/2"],["∫ 1/√(2x+5) dx","√(2x+5)","2√(2x+5)","√(2x+5)/2","−1/√(2x+5)"],["∫ 1/(x−1)³ dx","−1/[2(x−1)²]","1/[2(x−1)²]","−1/(x−1)²","ln ⁡│x−1│"],["إذا كان F′(x)=2x و F(1)=5، فأي تابع هو F؟","x²+4","x²+5","2x²+3","x²−4"],["إذا كان F′(x)=cos(x) و F(0)=3، فأي تابع هو F؟","sin(x)+3","sin(x)−3","cos(x)+2","−sin(x)+3"],["إذا كان F′(x)=2e^(2x) و F(0)=0، فأي تابع هو F؟","e^(2x)−1","2e^(2x)−2","e^(2x)","e^(2x)/2−1/2"],["إذا كان F′(x)=1/x على x>0 و F(e)=0، فأي تابع هو F؟","ln(x)−1","ln(x)+1","ln(x)","1−ln(x)"],["إذا كان F و G تابعين أصليين لـ f على المجال نفسه، فماذا نستنتج؟","الفرق F−G ثابت على المجال","المجموع F+G ثابت دائماً","الجداء FG ثابت دائماً","يلزم أن يكون F=G في جميع الحالات"],["إذا كان F تابعاً أصلياً لـ f، فما التابع الذي يقبل 3F(x)−2x تابعاً أصلياً؟","3f(x)−2","3f(x)−2x","3f(x)","f(x)−2"],["إذا كان F′(x)=6x−4، فما قيمة الفرق F(2)−F(1)؟","5","9","4","13"],["أي تابع أصلي لـ 1/x على المجال x<0؟","ln(−x)","−ln(−x)","1/x","−1/x"],["∫ (x²+1)/x dx على المجال x>0","x²/2+ln(x)","x²+ln(x)","x²/2+1/x","ln(x²+1)"],["∫ sin(x)cos(x) dx","sin²(x)/2","sin²(x)","cos²(x)/2","−sin²(x)/2"],["∫ (2x+3)/(x²+3x+7) dx","ln(x²+3x+7)","ln(x²+3x+7)/2","1/(x²+3x+7)","−ln(x²+3x+7)"],["∫ 2x/(x²+1)³ dx","−1/[2(x²+1)²]","1/[2(x²+1)²]","−1/(x²+1)²","ln(x²+1)"],["∫ x√(x²+1) dx","(x²+1)^(3/2)/3","(x²+1)^(3/2)/2","√(x²+1)/3","2(x²+1)^(3/2)/3"],["∫ eˣ/(1+eˣ) dx","ln(1+eˣ)","1/(1+eˣ)","eˣ/ln(1+eˣ)","−ln(1+eˣ)"],["∫ ln(x)/x dx على المجال x>0","ln²(x)/2","ln²(x)","ln(x²)/2","ln(x)/2"],["∫ 1/[x ln(x)] dx على المجال x>1","ln(ln(x))","1/ln(x)","ln²(x)/2","ln(x)/x"],["∫ eˣ(1+eˣ)² dx","(1+eˣ)³/3","(1+eˣ)³","(1+eˣ)²/2","eˣ(1+eˣ)³/3"],["∫ cos(x)/(2+sin(x))² dx","−1/(2+sin(x))","1/(2+sin(x))","ln(2+sin(x))","−1/[2(2+sin(x))]"],["إذا كان F′(x)=4x/(x²+1) و F(1)=0، فأي تابع هو F؟","2ln((x²+1)/2)","ln((x²+1)/2)","2ln(x²+1)−1","2ln(x²+1)"],["إذا كان F تابعاً أصلياً لـ 3x²e^(x³)، فما قيمة F(1)−F(0)؟","e−1","e","3e−3","1"]];
+const quiz=document.querySelector("#quiz"), items=document.querySelector("#items");
+const format=new Intl.NumberFormat("ar",{numberingSystem:"arab"});
+const answerPositions=[2,0,3,1,1,3,0,2,3,1,2,0,0,2,1,3,1,0,3,2,2,1,0,3,1,3,2,0,3,0,1,2,0,2,3,1,2,3,1,0];
+const letters=["أ","ب","ج","د"];
+function math(value){
+  return value.replace(/\^\(([^)]+)\)/g,"<sup>$1</sup>");
+}
+for (const [index,[question,correct,...distractors]] of bank.entries()){
+  const options=[...distractors];
+  options.splice(answerPositions[index],0,correct);
+  const group=document.createElement("fieldset");
+  const prompt=question.startsWith("∫") ? '<bdi class="math" dir="ltr">'+math(question.split(" على ")[0])+'</bdi>'+(question.includes(" على ")?" على "+question.split(" على ")[1]:"") : math(question.replace(/([FGf]′?\(x\)=[^،\s]+)/g,'<bdi dir="ltr">$1</bdi>'));
+  group.innerHTML='<legend>السؤال '+format.format(index+1)+'</legend><p>'+prompt+'</p><div class="opts">'+options.map((value,i)=>'<label><input type="radio" name="q'+index+'" value="'+i+'"> '+letters[i]+' <bdi class="'+(index===24 ? '' : 'math')+'" dir="'+(index===24?'rtl':'ltr')+'">'+math(value)+'</bdi></label>').join("")+'</div>';
+  items.append(group);
+}
+const progress=document.querySelector("#progress");
+function update(){
+  const answered=quiz.querySelectorAll("input:checked").length;
+  progress.textContent='تمت الإجابة عن '+format.format(answered)+' من '+format.format(bank.length);
+}
+update();
+quiz.addEventListener("change",update);
+quiz.addEventListener("submit",event=>{
+  event.preventDefault();
+  const submit=quiz.querySelector("button");
+  if(submit.disabled)return;
+  const answers=new FormData(quiz);
+  const unanswered=bank.length-Array.from(answers.keys()).length;
+  if(unanswered && !window.confirm("بقي "+format.format(unanswered)+" سؤال بلا إجابة. هل تريد التسليم؟"))return;
+  let score=0;
+  Array.from(items.children).forEach((group,index)=>{
+    const picked=answers.get("q"+index);
+    const correct=answerPositions[index];
+    if(picked!==null && Number(picked)===correct)score++;
+    group.querySelectorAll("input").forEach(input=>{
+      input.disabled=true;
+      if(Number(input.value)===correct)input.parentElement.classList.add("correct");
+      else if(input.checked)input.parentElement.classList.add("wrong");
+    });
+    const feedback=document.createElement("p");
+    feedback.textContent=(picked===null?"بلا إجابة":Number(picked)===correct?"إجابة صحيحة":"إجابة خاطئة")+" · الإجابة الصحيحة: "+letters[correct];
+    group.append(feedback);
+  });
+  submit.disabled=true;
+  submit.hidden=true;
+  const student=document.querySelector("#student");
+  student.disabled=true;
+  const summary=format.format(score)+" / "+format.format(bank.length);
+  document.querySelector("#score").textContent="النتيجة "+summary;
+  const message=["اختبار قوانين التكامل والتابع الأصلي",student.value.trim(),"النتيجة "+summary,"بلا إجابة "+format.format(unanswered)].filter(Boolean).join("\n");
+  document.querySelector("#share").href="https://wa.me/?text="+encodeURIComponent(message);
+  const result=document.querySelector("#result");
+  result.hidden=false;
+  result.focus();
+  result.scrollIntoView();
+});
+</script>
