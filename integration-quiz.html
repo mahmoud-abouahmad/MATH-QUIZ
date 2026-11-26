@@ -3,8 +3,8 @@
 *{box-sizing:border-box}body{margin:0;background:#f5f2fa;color:#211b39;font:17px Tahoma,Arial,sans-serif;line-height:1.65}main{max-width:830px;margin:auto;padding:18px}header,fieldset,#result{padding:22px;margin:0 0 14px;border:1px solid #ddd5e7;border-radius:16px;background:white}header{background:#211343;color:white;border-bottom:5px solid #d7b05c}header p{color:#f1d08a}h1{line-height:1.4;margin:8px 0}fieldset{min-width:0}legend{font-weight:bold;color:#52277d;padding:0 8px}label{display:flex;gap:10px;align-items:center;background:#f7f5fb;padding:9px 12px;border-radius:8px;cursor:pointer}label:has(input:checked){outline:2px solid #724ab2}label.correct{background:#def5e7}label.wrong{background:#ffe4e4}button,a.share{display:inline-block;font:inherit;color:white;background:#512883;padding:10px 20px;border-radius:10px;border:0;text-decoration:none;cursor:pointer}a.share{background:#12633b}.math{font-family:Cambria,Georgia,serif;font-size:1.15em;unicode-bidi:isolate}#bar{position:sticky;top:0;background:#f5f2fa;padding:8px;z-index:1}#result{scroll-margin-top:65px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:530px){main{padding:10px}.opts{grid-template-columns:1fr}fieldset{padding:14px}}
 math.math{font-family:math;font-size:1.26em;margin-block:4px}.prompt{line-height:2.15}.opts label{flex-wrap:wrap;min-width:0}</style>
 <main><header><p>معهد آفاق التعليمي · الأستاذ محمود الدياب</p><h1>اختبار قوانين التكامل والتابع الأصلي</h1>الثالث الثانوي العلمي · ٤٠ سؤالاً · ٤٠ علامة</header>
-<p>اختر إجابة واحدة لكل سؤال. في أسئلة التكامل تُضاف (C) لجميع الخيارات، ويُفترض أن الحساب على مجال تكون فيه العبارة معرّفة. يظهر التصحيح عند تسليم الاختبار.</p>
-<label>اسم الطالب أو رمز المجموعة (اختياري) <input id="student" maxlength="60"></label><div id="bar"><output id="progress" aria-live="polite"></output></div>
+<p>اختر إجابة واحدة لكل سؤال. مدة الاختبار ٨٠ دقيقة (دقيقتان لكل سؤال). في أسئلة التكامل تُضاف (C) لجميع الخيارات، ويُفترض أن الحساب على مجال تكون فيه العبارة معرّفة. يظهر التصحيح عند تسليم الاختبار.</p>
+<label>اسم الطالب أو رمز المجموعة (اختياري) <input id="student" maxlength="60"></label><div id="bar"><output id="progress" aria-live="polite"></output> · <span>الوقت المتبقي: <output id="remaining" aria-live="off">٨٠:٠٠</output></span></div>
 <section id="result" hidden tabindex="-1"><h2 id="score"></h2><p>تظهر الإجابة الصحيحة بالأخضر، واختيارك الخاطئ بالأحمر.</p><a id="share" class="share" target="_blank" rel="noopener">مشاركة النتيجة عبر واتساب</a></section>
 <form id="quiz"><div id="items"></div><button>تسليم الاختبار وعرض التصحيح</button></form><noscript>يتطلب الاختبار تفعيل JavaScript في المتصفح.</noscript></main>
 <script>
@@ -14,6 +14,16 @@ const quiz=document.querySelector("#quiz"), items=document.querySelector("#items
 const format=new Intl.NumberFormat("ar",{numberingSystem:"arab"});
 const answerPositions=[2,0,3,1,1,3,0,2,3,1,2,0,0,2,1,3,1,0,3,2,2,1,0,3,1,3,2,0,3,0,1,2,0,2,3,1,2,3,1,0];
 const letters=["أ","ب","ج","د"];
+const durationSeconds=bank.length*120;
+const deadline=Date.now()+durationSeconds*1000;
+let finished=false;
+const remaining=document.querySelector("#remaining");
+const timer=setInterval(()=>{
+  if(finished)return;
+  const seconds=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+  remaining.textContent=format.format(Math.floor(seconds/60)).padStart(2,"٠")+":"+format.format(seconds%60).padStart(2,"٠");
+  if(seconds===0){clearInterval(timer);quiz.requestSubmit();}
+},1000);
 function math(value){
   const escape=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
   function render(s){
@@ -95,7 +105,7 @@ quiz.addEventListener("submit",event=>{
   if(submit.disabled)return;
   const answers=new FormData(quiz);
   const unanswered=bank.length-Array.from(answers.keys()).length;
-  if(unanswered && !window.confirm("بقي "+format.format(unanswered)+" سؤال بلا إجابة. هل تريد التسليم؟"))return;
+  if(unanswered && Date.now()<deadline && !window.confirm("بقي "+format.format(unanswered)+" سؤال بلا إجابة. هل تريد التسليم؟"))return;
   let score=0;
   Array.from(items.children).forEach((group,index)=>{
     const picked=answers.get("q"+index);
@@ -112,6 +122,8 @@ quiz.addEventListener("submit",event=>{
   });
   submit.disabled=true;
   submit.hidden=true;
+  finished=true;
+  clearInterval(timer);
   const student=document.querySelector("#student");
   student.disabled=true;
   const summary=format.format(score)+" / "+format.format(bank.length);
@@ -124,3 +136,4 @@ quiz.addEventListener("submit",event=>{
   result.scrollIntoView();
 });
 </script>
+
