@@ -1,7 +1,7 @@
 <!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>اختبار قوانين التكامل والتابع الأصلي</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f5f2fa;color:#211b39;font:17px Tahoma,Arial,sans-serif;line-height:1.65}main{max-width:830px;margin:auto;padding:18px}header,fieldset,#result{padding:22px;margin:0 0 14px;border:1px solid #ddd5e7;border-radius:16px;background:white}header{background:#211343;color:white;border-bottom:5px solid #d7b05c}header p{color:#f1d08a}h1{line-height:1.4;margin:8px 0}fieldset{min-width:0}legend{font-weight:bold;color:#52277d;padding:0 8px}label{display:flex;gap:10px;align-items:center;background:#f7f5fb;padding:9px 12px;border-radius:8px;cursor:pointer}label:has(input:checked){outline:2px solid #724ab2}label.correct{background:#def5e7}label.wrong{background:#ffe4e4}button,a.share{display:inline-block;font:inherit;color:white;background:#512883;padding:10px 20px;border-radius:10px;border:0;text-decoration:none;cursor:pointer}a.share{background:#12633b}.math{font-family:Cambria,Georgia,serif;font-size:1.15em;unicode-bidi:isolate}#bar{position:sticky;top:0;background:#f5f2fa;padding:8px;z-index:1}#result{scroll-margin-top:65px}.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:530px){main{padding:10px}.opts{grid-template-columns:1fr}fieldset{padding:14px}}
-</style>
+math.math{font-family:math;font-size:1.26em;margin-block:4px}.prompt{line-height:2.15}.opts label{flex-wrap:wrap;min-width:0}</style>
 <main><header><p>معهد آفاق التعليمي · الأستاذ محمود الدياب</p><h1>اختبار قوانين التكامل والتابع الأصلي</h1>الثالث الثانوي العلمي · ٤٠ سؤالاً · ٤٠ علامة</header>
 <p>اختر إجابة واحدة لكل سؤال. في أسئلة التكامل تُضاف (C) لجميع الخيارات، ويُفترض أن الحساب على مجال تكون فيه العبارة معرّفة. يظهر التصحيح عند تسليم الاختبار.</p>
 <label>اسم الطالب أو رمز المجموعة (اختياري) <input id="student" maxlength="60"></label><div id="bar"><output id="progress" aria-live="polite"></output></div>
@@ -15,14 +15,71 @@ const format=new Intl.NumberFormat("ar",{numberingSystem:"arab"});
 const answerPositions=[2,0,3,1,1,3,0,2,3,1,2,0,0,2,1,3,1,0,3,2,2,1,0,3,1,3,2,0,3,0,1,2,0,2,3,1,2,3,1,0];
 const letters=["أ","ب","ج","د"];
 function math(value){
-  return value.replace(/\^\(([^)]+)\)/g,"<sup>$1</sup>");
+  const escape=s=>s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+  function render(s){
+    s=s.trim();
+    if(!s)return "";
+    if(s.startsWith("∫")&&s.endsWith(" dx"))return '<mo>∫</mo><mspace width=".18em"/>'+render(s.slice(1,-3))+'<mspace width=".24em"/><mi mathvariant="normal">d</mi><mi>x</mi>';
+    let depth=0;
+    for(let i=0;i<s.length;i++){
+      if("([".includes(s[i]))depth++;
+      if(")]".includes(s[i]))depth--;
+      if(!depth&&i>0&&"+−=".includes(s[i]))return render(s.slice(0,i))+'<mo>'+s[i]+'</mo>'+render(s.slice(i+1));
+    }
+    depth=0;
+    for(let i=0;i<s.length;i++){
+      if("([".includes(s[i]))depth++;
+      if(")]".includes(s[i]))depth--;
+      if(!depth&&s[i]==="/"){
+        const ungroup=t=>/^\([^()]*\)$|^\[[\s\S]*\]$/.test(t)?t.slice(1,-1):t;
+        return '<mfrac><mrow>'+render(ungroup(s.slice(0,i).trim()))+'</mrow><mrow>'+render(ungroup(s.slice(i+1).trim()))+'</mrow></mfrac>';
+      }
+    }
+    let output="";
+    while(s){
+      if(/^\s|^⁡/.test(s)){s=s.slice(1);continue;}
+      let token;
+      if(s.startsWith("√")){
+        s=s.slice(1);
+        const group=s.match(/^\(([^()]*)\)/);
+        const radicand=group?group[1]:s[0];
+        token='<msqrt><mrow>'+render(radicand)+'</mrow></msqrt>';
+        s=s.slice(group?group[0].length:1);
+      }else if(s.startsWith("(")){
+        let end=1,level=1;
+        while(end<s.length&&level){if(s[end]==="(")level++;if(s[end]===")")level--;end++;}
+        token='<mrow><mo>(</mo>'+render(s.slice(1,end-1))+'<mo>)</mo></mrow>';
+        s=s.slice(end);
+      }else{
+        const part=s.match(/^(?:sin|cos|ln|\d+|.)/u)[0];
+        const tag=/^\d/.test(part)?"mn":/^[a-zA-Z]+$/.test(part)?"mi":"mo";
+        token='<'+tag+(part.length>1&&tag==="mi"?' mathvariant="normal"':'')+'>'+escape(part)+'</'+tag+'>';
+        s=s.slice(part.length);
+      }
+      const power=s.match(/^(?:\^\(([^()]*)\)|([²³⁴⁵ˣ]))/);
+      if(power){
+        const symbols={"²":"2","³":"3","⁴":"4","⁵":"5","ˣ":"x"};
+        token='<msup>'+token+'<mrow>'+render(power[1]??symbols[power[2]])+'</mrow></msup>';
+        s=s.slice(power[0].length);
+      }
+      output+=token;
+    }
+    return output;
+  }
+  return '<math dir="ltr" class="math"><mrow>'+render(value)+'</mrow></math>';
+}
+function mixed(value){
+  return value.split(/([\u0020-\u007e²³⁴⁵ˣ′−√│⁡]+)(?=[\s\S]|$)/).map((part,i)=>{
+    if(i%2===0||!/[A-Za-z0-9]/.test(part))return part.replaceAll("<","&lt;");
+    return ' '+math(part)+' ';
+  }).join("");
 }
 for (const [index,[question,correct,...distractors]] of bank.entries()){
   const options=[...distractors];
   options.splice(answerPositions[index],0,correct);
   const group=document.createElement("fieldset");
-  const prompt=question.startsWith("∫") ? '<bdi class="math" dir="ltr">'+math(question.split(" على ")[0])+'</bdi>'+(question.includes(" على ")?" على "+question.split(" على ")[1]:"") : math(question.replace(/([FGf]′?\(x\)=[^،\s]+)/g,'<bdi dir="ltr">$1</bdi>'));
-  group.innerHTML='<legend>السؤال '+format.format(index+1)+'</legend><p>'+prompt+'</p><div class="opts">'+options.map((value,i)=>'<label><input type="radio" name="q'+index+'" value="'+i+'"> '+letters[i]+' <bdi class="'+(index===24 ? '' : 'math')+'" dir="'+(index===24?'rtl':'ltr')+'">'+math(value)+'</bdi></label>').join("")+'</div>';
+  const prompt=question.startsWith("∫") ? math(question.split(" على ")[0])+(question.includes(" على ")?" على "+mixed(question.split(" على ")[1]):"") : mixed(question);
+  group.innerHTML='<legend>السؤال '+format.format(index+1)+'</legend><p class="prompt">'+prompt+'</p><div class="opts">'+options.map((value,i)=>'<label><input type="radio" name="q'+index+'" value="'+i+'"> '+letters[i]+' '+(index===24?mixed(value):math(value))+'</label>').join("")+'</div>';
   items.append(group);
 }
 const progress=document.querySelector("#progress");
